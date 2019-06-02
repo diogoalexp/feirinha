@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.example.ufpr.feirinha.model;
+package com.ufpr.feirinha.model;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -17,16 +17,10 @@ import javax.persistence.Table;
  * @author diogo
  */
 @Entity
-@Table(name="Produto")
-public class Produto implements Serializable  {
+@Table(name="Categoria")
+public class Categoria implements Serializable  {
     private static final long serialVersionUID = 1L;
     
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private long id;
-    
-    private String nome;
-
     /**
      * @return the id
      */
@@ -35,10 +29,29 @@ public class Produto implements Serializable  {
     }
 
     /**
+     * @param id the id to set
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
      * @return the nome
      */
     public String getNome() {
         return nome;
     }
+
+    /**
+     * @param nome the nome to set
+     */
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
     
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    private long id;
+    
+    private String nome;
 }
