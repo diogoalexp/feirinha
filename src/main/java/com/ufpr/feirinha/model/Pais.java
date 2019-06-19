@@ -11,22 +11,32 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Length;
 
 /**
  *
  * @author diogo
  */
 @Entity
-@Table(name="Categoria")
-public class Categoria extends AbstractEntity {
-    
-    @Column(name = "nome", nullable = false, length = 100)  
-    private String nome;    
+@Table(name="Pais")
+public class Pais extends AbstractEntity{
+
+    @Column(name = "nome", unique=true, nullable = false, length = 100)  
+    private String nome;   
+   
+    public Pais(long id,String name){
+		this.setId(id); 
+		this.nome=nome;
+	}
+    public Pais(){
+    }
 
     /**
      * @return the nome
-     */
+     */    
     public String getNome() {
         return nome;
     }
@@ -36,5 +46,5 @@ public class Categoria extends AbstractEntity {
      */
     public void setNome(String nome) {
         this.nome = nome;
-    }
+    } 
 }

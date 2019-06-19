@@ -21,13 +21,13 @@ import javax.persistence.Table;
  * @author diogo
  */
 @Entity
-@Table(name="Produto")
-public class Produto extends AbstractEntity  {   
+@Table(name="Participante")
+public class Participante extends AbstractEntity {    
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
     
-    @Column(name = "valor", nullable = false)
-    private double valor;
+    @Column(name = "endereco", nullable = true, length = 256)
+    private String endereco;
     
     @Column(name = "descr", nullable = true, length = 256)
     private String descr;
@@ -59,17 +59,17 @@ public class Produto extends AbstractEntity  {
     }
 
     /**
-     * @return the valor
+     * @return the endereco
      */
-    public double getValor() {
-        return valor;
+    public String getEndereco() {
+        return endereco;
     }
 
     /**
-     * @param valor the valor to set
+     * @param endereco the endereco to set
      */
-    public void setValor(double valor) {
-        this.valor = valor;
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     /**
@@ -99,7 +99,7 @@ public class Produto extends AbstractEntity  {
     public void setImg(byte[] img) {
         this.img = img;
     }
-    
+
     /**
      * @return the categoria
      */
@@ -113,7 +113,7 @@ public class Produto extends AbstractEntity  {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
-    
+
     /**
      * @return the usuario
      */

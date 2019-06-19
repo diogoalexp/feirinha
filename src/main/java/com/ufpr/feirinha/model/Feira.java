@@ -6,14 +6,13 @@
 package com.ufpr.feirinha.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,29 +20,37 @@ import javax.persistence.Table;
  * @author diogo
  */
 @Entity
-@Table(name="Produto")
-public class Produto extends AbstractEntity  {   
+@Table(name="Feira")
+public class Feira extends AbstractEntity{    
     @Column(name = "nome", nullable = false, length = 50)
     private String nome;
     
-    @Column(name = "valor", nullable = false)
-    private double valor;
+    @Column(name = "local", nullable = true, length = 256)
+    private String local;
+    
+    @Column(name = "endereco", nullable = false, length = 256)
+    private String endereco;
     
     @Column(name = "descr", nullable = true, length = 256)
     private String descr;
+    
+    @Column(name = "data", nullable = false)
+    private Date data;
+    
+    @Column(name = "recorrente", nullable = true)
+    private boolean recorrente;
     
     @Lob
     @Column(name="img", nullable = true)
     private byte[] img;
     
-    @OneToOne
-    @JoinColumn(name="categoria_id")
-    private Categoria categoria;
-    
-    @OneToOne
-    @JoinColumn(name="usuario_id")
+    @Column(name = "cidade", nullable = false)
+    private Cidade cidade;
+        
+    @Column(name = "usuario", nullable = false)
     private Usuario usuario;
-    
+      
+
     /**
      * @return the nome
      */
@@ -59,17 +66,31 @@ public class Produto extends AbstractEntity  {
     }
 
     /**
-     * @return the valor
+     * @return the local
      */
-    public double getValor() {
-        return valor;
+    public String getLocal() {
+        return local;
     }
 
     /**
-     * @param valor the valor to set
+     * @param local the local to set
      */
-    public void setValor(double valor) {
-        this.valor = valor;
+    public void setLocal(String local) {
+        this.local = local;
+    }
+
+    /**
+     * @return the endereco
+     */
+    public String getEndereco() {
+        return endereco;
+    }
+
+    /**
+     * @param endereco the endereco to set
+     */
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
     }
 
     /**
@@ -87,6 +108,34 @@ public class Produto extends AbstractEntity  {
     }
 
     /**
+     * @return the data
+     */
+    public Date getData() {
+        return data;
+    }
+
+    /**
+     * @param data the data to set
+     */
+    public void setData(Date data) {
+        this.data = data;
+    }
+
+    /**
+     * @return the recorrente
+     */
+    public boolean isRecorrente() {
+        return recorrente;
+    }
+
+    /**
+     * @param recorrente the recorrente to set
+     */
+    public void setRecorrente(boolean recorrente) {
+        this.recorrente = recorrente;
+    }
+
+    /**
      * @return the img
      */
     public byte[] getImg() {
@@ -99,21 +148,21 @@ public class Produto extends AbstractEntity  {
     public void setImg(byte[] img) {
         this.img = img;
     }
-    
+
     /**
-     * @return the categoria
+     * @return the cidade
      */
-    public Categoria getCategoria() {
-        return categoria;
+    public Cidade getCidade() {
+        return cidade;
     }
 
     /**
-     * @param categoria the categoria to set
+     * @param cidade the cidade to set
      */
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setCidade(Cidade cidade) {
+        this.cidade = cidade;
     }
-    
+
     /**
      * @return the usuario
      */
