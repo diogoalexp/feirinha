@@ -6,13 +6,19 @@
 package com.ufpr.feirinha.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -44,13 +50,17 @@ public class Feira extends AbstractEntity{
     @Column(name="img", nullable = true)
     private byte[] img;
     
-    @Column(name = "cidade", nullable = false)
+    @OneToOne
+    @JoinColumn(name="cidade_id")
     private Cidade cidade;
         
-    @Column(name = "usuario", nullable = false)
+    @OneToOne
+    @JoinColumn(name="usuario_id")
     private Usuario usuario;
+    
+    @OneToMany
+    private List<Participante> participantes = new ArrayList<>();
       
-
     /**
      * @return the nome
      */
@@ -175,5 +185,19 @@ public class Feira extends AbstractEntity{
      */
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    /**
+     * @return the participantes
+     */
+    public List<Participante> getParticipantes() {
+        return participantes;
+    }
+
+    /**
+     * @param participantes the participantes to set
+     */
+    public void setParticipantes(List<Participante> participantes) {
+        this.participantes = participantes;
     }
 }
