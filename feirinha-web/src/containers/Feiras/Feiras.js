@@ -32,23 +32,15 @@ class Feiras extends Component {
     render () {
         return (
             <div>
-                <table>
-                    <theader>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Descrição</th>
-                        </tr>
-                    </theader>
-                    <tbody>
-                    {this.state.feiras.map(feira => (
-                        <Feira 
-                            key={feira.id}
-                            nome={feira.nome} 
-                            descr={feira.descr}
-                            />
-                    ))}
-                    </tbody>
-                </table>
+                {this.state.feiras.map(feira => (
+                    <Feira 
+                        key={feira.id}
+                        nome={feira.nome} 
+                        descr={feira.descr}
+                        data={feira.data}
+                        img={feira.img}
+                        />
+                ))}
             </div>
         );
     }

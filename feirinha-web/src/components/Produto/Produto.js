@@ -1,13 +1,17 @@
 import React from 'react';
 
+import Card from '../Card/Card';
 import classes from './Produto.module.css';
 
 const produto = ( props ) => {
+    const footer = props.valor;
     return (
-        <div className={classes.Produto}>
-            <p>Nome: {props.nome}</p>
-            <p>descr: {props.descr}</p>
-        </div>
+        <Card 
+            img={props.img}
+            nome={props.nome} 
+            descr={props.descr}
+            footer={footer}
+        />
     );
 };
 

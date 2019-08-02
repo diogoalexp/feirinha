@@ -32,24 +32,15 @@ class Participantes extends Component {
     render () {
         return (
             <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>nome</th>
-                            <th>descr</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    
                 {this.state.participantes.map(participante => (
                     <Participante 
                         key={participante.id}
                         nome={participante.nome} 
                         descr={participante.descr}
+                        endereco={participante.endereco}
+                        img={participante.img}
                         />
                 ))}
-                </tbody>
-                </table>
             </div>
         );
     }

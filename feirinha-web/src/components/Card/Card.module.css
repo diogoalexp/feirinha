@@ -1,0 +1,53 @@
+ .Card {
+    /* position: relative; */
+    background: white;
+    width: 220px;
+    height: 280px;
+    color: black;    
+    float: left;
+    overflow: hidden;
+    padding: 10px;
+    margin: 10px 10px;
+    border-top: 5px;
+    border-left: 5px;
+    border: 0px solid #eee;
+    border-radius: 6px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 3px #ccc;
+  }
+  
+.Imagem {
+    padding: 8px;
+    height: 50%;
+    box-sizing: border-box;
+    border-radius: 5px;
+}
+
+.Imagem img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+.Nome {
+    height: 10%;
+    color: #160a03;
+}
+
+.Descr {
+    height: 30%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: normal;
+    font-style: italic;
+    font-size: 0.7rem;
+    text-indent: 25px;
+    color: #2c1407
+}
+
+.Footer {
+    vertical-align: text-bottom;
+    text-align: right;
+    height: 10%;
+    color: #421e0a;
+}

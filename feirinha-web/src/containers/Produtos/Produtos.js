@@ -37,6 +37,8 @@ class Produtos extends Component {
                         key={produto.id}
                         nome={produto.nome} 
                         descr={produto.descr}
+                        valor={produto.valor}
+                        img={produto.img}
                         />
                 ))}
             </div>
