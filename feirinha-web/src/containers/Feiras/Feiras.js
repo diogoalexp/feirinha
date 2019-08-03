@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
+import { Route } from 'react-router-dom';
+
 import Feira from '../../components/Feira/Feira';
 import axios from '../../axios-local';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
+import Details from '../../containers/Feiras/Details/Details';
+import Button from '../../components/UI/Button/Button';
+
 
 
 class Feiras extends Component {
@@ -12,7 +17,6 @@ class Feiras extends Component {
 
     
     componentDidMount() {
-        console.log(this.state);
         axios.get('/feira')
             .then(res => {
                 const fetchedLista = [];
@@ -29,18 +33,49 @@ class Feiras extends Component {
             });
     }
 
+    checkoutCancelledHandler = () => {
+        this.props.history.goBack();
+    }
+
+    checkoutContinuedHandler = (id) => {
+        const queryParams = [];
+        queryParams.push('id=' + id);
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/feira/edit',
+            search: '?' + queryString
+        });
+    }
+
+    addHandler = () => {
+        this.props.history.push({
+            pathname: '/feira/add'
+        });
+    }
+
     render () {
+        console.log("[render]: Feiras")
         return (
             <div>
+                <Button btnType="Success" clicked={() => this.addHandler(0)}>Novo</Button> 
+                <br />
                 {this.state.feiras.map(feira => (
                     <Feira 
                         key={feira.id}
                         nome={feira.nome} 
                         descr={feira.descr}
                         data={feira.data}
-                        img={feira.img}
+                        img={feira.img}        
+                        edit={() => this.checkoutContinuedHandler(feira.id)}               
                         />
+                        
                 ))}
+                <Route 
+                    path={this.props.match.path + '/edit'} 
+                    render={(props) => (<Details id={this.state.selectedId} {...props} />)} />
+                <Route 
+                    path={this.props.match.path + '/add'} 
+                    render={(props) => (<Details id={this.state.selectedId} {...props} />)} />
             </div>
         );
     }

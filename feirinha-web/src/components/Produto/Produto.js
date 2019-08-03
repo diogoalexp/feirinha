@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Card from '../Card/Card';
-import classes from './Produto.module.css';
 
 const produto = ( props ) => {
     const footer = props.valor;

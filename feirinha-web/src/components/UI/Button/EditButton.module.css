@@ -1,0 +1,11 @@
+.EditButton {
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+    /* width: 120px; */
+    /* height: 50px; */
+    font-weight: bold;
+    font-size: 18px;
+}

@@ -28,3 +28,4 @@ HELP.md
 ### VS Code ###
 .vscode/
 /feirinha-api/target/
+/feirinha-web/node_modules/.cache/

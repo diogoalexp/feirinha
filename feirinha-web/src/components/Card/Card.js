@@ -7,7 +7,7 @@ import noImg from '../../assets/images/no-image-icon.png';
 const card = ( props ) => {
     const img = props.img != null ? props.img : noImg;
     return (
-            <div className={classes.Card}>
+            <div className={classes.Card} onClick={props.edit}>
                 <div className={classes.Imagem}>
                     <img src={img} alt="Sem Foto" />
                 </div>
