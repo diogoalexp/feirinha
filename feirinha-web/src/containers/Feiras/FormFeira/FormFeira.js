@@ -63,9 +63,9 @@ class FormFeira extends Component {
                 touched: false
             },
             data: {
-                elementType: 'input',
+                elementType: 'date',
                 elementConfig: {
-                    type: 'text',
+                    type: 'date',
                     placeholder: 'dd/mm/aaaa'
                 },
                 value: '',
@@ -100,7 +100,36 @@ class FormFeira extends Component {
                 value: false,
                 validation: {},
                 valid: true
+            },
+            participantes: {
+                elementType: 'select-multiple',
+                elementConfig: {
+                    options: [
+                        {value: 0, displayValue: 'Select'}
+                    ]
+                },
+                value: {},
+                validation: {},
+                valid: true
             }
+            ,
+            img: {
+                elementType: 'img',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Descrição'
+                },
+                value: {
+                    file: '',
+                    imagePreviewUrl: ''
+                },
+                validation: {
+                    required: false
+                },
+                valid: false,
+                touched: false
+            }
+            
         },
         formIsValid: false,
         loading: false,
@@ -115,7 +144,8 @@ class FormFeira extends Component {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
         formData["id"] = this.props.id;
-        if (this.props.id == 0){
+        console.log(formData)
+        if (this.props.id === 0){
             axios.post( '/feira', formData )
                 .then( response => {
                     this.setState( { loading: false } );
@@ -183,15 +213,28 @@ class FormFeira extends Component {
         return isValid;
     }
 
-    inputChangedHandler = (event, inputIdentifier, load = null) => {
-        console.log("[inputChangedHandler]:(" + event + "," + inputIdentifier + "," + load +")")
+    inputChangedHandler = (event, inputIdentifier) => {
+        console.log("[inputChangedHandler]:(" + event + "," + inputIdentifier +")")
         const updatedOrderForm = {
             ...this.state.orderForm
         };
         const updatedFormElement = { 
             ...updatedOrderForm[inputIdentifier]
         };
-        updatedFormElement.value = load != null ? load : event.target.value;
+         console.log(event.target);
+        
+        if(inputIdentifier == "participantes"){
+            let notExists = updatedFormElement.value.find(x => x.id == event.target.value) == undefined && event.target.value != 0;
+            if (notExists) {
+                let append = updatedFormElement.elementConfig.options.find(x => x.value == event.target.value);;
+                updatedFormElement.value.push({
+                    id: event.target.value,
+                    nome: append.displayValue
+                });
+            }
+        }else{
+            updatedFormElement.value = event.target.value;
+        }
         updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedFormElement;
@@ -201,6 +244,28 @@ class FormFeira extends Component {
             formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
         }
         this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
+    }
+
+    unselectHandler = (value, inputIdentifier) => {
+        console.log("unselectHandler");
+        console.log(value);
+        const updatedOrderForm = {
+            ...this.state.orderForm
+        };
+        const updatedFormElement = { 
+            ...updatedOrderForm[inputIdentifier]
+        };
+
+        let element = updatedFormElement.value.find(x => x.id == value);
+        console.log(element);
+        let index = updatedFormElement.value.indexOf(element);
+        if (index > -1) {
+            updatedFormElement.value.splice(index, 1);
+        }
+        updatedOrderForm[inputIdentifier] = updatedFormElement;
+        this.setState({orderForm: updatedOrderForm});
+
+
     }
 
     loadField = (key, value) =>{
@@ -232,17 +297,57 @@ class FormFeira extends Component {
                 .catch(err => {
                     this.setState({loading: false});
                 });
-        }else if (this.props.id == 0){
+        }else if (this.props.id === 0){
             let add = {
                 id: 0
             } 
             this.setState({loading: false, feira: add });
         }
+
+        axios.get('/participante/')
+        .then(res => {
+            const fetched = res.data;
+            const updatedOrderForm = {
+                ...this.state.orderForm
+            };
+
+            let updatedFormElement = { 
+                ...this.state.orderForm["participantes"]
+            }; 
+            // let formElementsArray = { 
+            //     ...this.state.orderForm["participantes"].elementConfig.options
+            // }; 
+            const formElementsArray = [{
+                value: 0,
+                displayValue: "Select"
+            }];
+            for (let item in fetched) {
+                formElementsArray.push({
+                    value: fetched[item].id,
+                    displayValue: fetched[item].nome
+                });
+            }
+
+            updatedFormElement.elementConfig.options = formElementsArray;
+            updatedFormElement.touched = false;
+            
+            updatedOrderForm["participantes"] = updatedFormElement;
+            this.setState({loading: false, feira: fetched, orderForm: updatedOrderForm });
+        })
+        .catch(err => {
+            this.setState({loading: false});
+        });
     }
 
     render () {
-        console.log("[render]: FormFeira")
         let form = null;
+        let del = null;
+        if(this.props.id > 0){
+            del = (
+                <Button btnType="Danger" type="button" clicked={this.deleteHandler} >Delete</Button>
+            );
+        }
+
         if(this.state.feira != null){
             const formElementsArray = [];
             const orderForm = {
@@ -266,10 +371,12 @@ class FormFeira extends Component {
                             invalid={!formElement.config.valid}
                             shouldValidate={formElement.config.validation}
                             touched={formElement.config.touched}
-                            changed={(event) => this.inputChangedHandler(event, formElement.id)} />
+                            changed={(event) => this.inputChangedHandler(event, formElement.id)} 
+                            unselect={this.unselectHandler} 
+                            />
                     ))}
                     <Button btnType="Success" disabled={!this.state.formIsValid}>Save</Button> 
-                    <Button btnType="Danger" type="button" clicked={this.deleteHandler} >Delete</Button>
+                    {del}
                 </form>
             );
         }

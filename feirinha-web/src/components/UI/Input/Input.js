@@ -1,16 +1,48 @@
 import React from 'react';
 
 import classes from './Input.module.css';
+import ImageUpload from '../ImageUpload/ImageUpload';
+import Button from '../Button/Button';
 
 const input = ( props ) => {
     let inputElement = null;
-
     const inputClasses = [classes.InputElement];
 
     if (props.invalid && props.shouldValidate && props.touched) {
         inputClasses.push(classes.Invalid);
     }
 
+    function dataFormatada(date){
+        const data = new Date(date),
+            dia  = data.getUTCDate().toString(),
+            diaF = (dia.length === 1) ? '0'+dia : dia,
+            mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+            mesF = (mes.length === 1) ? '0'+mes : mes,
+            anoF = data.getFullYear();
+        return anoF+"-"+mesF+"-"+diaF;
+    }
+
+    let rem = (e) =>{
+        console.log("[rem]");
+        // console.log(value.key);
+        props.unselect(e.target.value, "participantes")
+        // return value;
+    }
+
+    // function fileRead(event){
+    //     console.log(event);
+    //     event.preventDefault();
+    //     const reader = new FileReader();
+    //     const file = event.target.files[0];
+        
+    //     reader.onloadend = () => onFileLoaded(reader.result);//this.props.onFileLoaded(reader.result);
+    //     reader.readAsDataURL(file);
+    //     console.log(file);
+    // }
+
+    // function onFileLoaded(param){
+    //     console.log(param);
+    // }
 
     switch ( props.elementType ) {
         case ( 'input' ):
@@ -40,6 +72,61 @@ const input = ( props ) => {
                     ))}
                 </select>
             );
+            break;
+        case ( 'select-multiple' ):
+                inputElement = (
+                    <div className={classes.Container}>
+                        <div /*className={classes.DivMain}*/>
+                            <div /*className={classes.DivLeft}*/> 
+                                <select id="selecteTest"
+                                    // multiple={true}
+                                    className={classes.InputElement}
+                                    value={0}
+                                    onChange={props.changed}
+                                    
+                                    >
+                                    {props.elementConfig.options.map(option => (
+                                        <option key={option.value} value={option.value}>
+                                            {option.displayValue}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            {/* <div className={classes.DivRight}> 
+                                <Button btnType="Success" type="button" clicked={add} value={valor}>+</Button> 
+                            </div> */}
+                        </div>
+                        {props.value.map(val => (
+                            <div key={val.id} className={classes.DivMain}>
+                                <div className={classes.DivLeft}> 
+                                    <p key={val.id}>{val.nome}  </p>     
+                                </div>  
+                                <div>
+                                    <Button key={val.id} btnType="Danger" type="button" clicked={rem} value={val.id} >-</Button> 
+                                </div> 
+                            </div>                            
+                        ))}                           
+                    </div>
+                    
+                );
+                break;
+        case ( 'date' ):
+            inputElement = <input
+                className={classes.InputElement}
+                {...props.elementConfig}
+                 value={dataFormatada(props.value)}
+                onChange={props.changed} />;
+            break;
+        case ( 'img' ):
+            inputElement = (
+                    <div className="row justify-content-center mb-2">
+                        {/* <input type="file" onChange={(event) => fileRead(event)}/>
+                        <div id="result">teste</div>
+                        <img src={imagem} /> */}
+
+                        <ImageUpload file={props.value}/>
+                    </div>
+                );
             break;
         default:
             inputElement = <input

@@ -17,7 +17,6 @@ class Details extends Component {
             }
         }
         this.setState({id: id});
-        console.log("[componentWillMount]: Details")
     }
 
     checkoutCancelledHandler = () => {
@@ -29,7 +28,6 @@ class Details extends Component {
     }
 
     render () {
-        console.log("[render]: Details")
         return (
             <div>
                 {/* <Route 
