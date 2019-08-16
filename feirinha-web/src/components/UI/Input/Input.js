@@ -6,7 +6,12 @@ import Button from '../Button/Button';
 
 const input = ( props ) => {
     let inputElement = null;
+    let inputLabel = null;
     const inputClasses = [classes.InputElement];
+    if (props.readOnly)
+        inputClasses.push(classes.ReadOnly);
+    const hasElements = props.elementConfig != null && props.elementConfig.options != null;
+
 
     if (props.invalid && props.shouldValidate && props.touched) {
         inputClasses.push(classes.Invalid);
@@ -46,15 +51,19 @@ const input = ( props ) => {
 
     switch ( props.elementType ) {
         case ( 'input' ):
-            inputElement = <input
-                className={inputClasses.join(' ')}
-                {...props.elementConfig}
-                value={props.value}
-                onChange={props.changed} />;
+            inputElement = <div>
+                <input
+                    className={inputClasses.join(' ')}
+                    readOnly={props.readOnly}
+                    {...props.elementConfig}
+                    value={props.value}                
+                    onChange={props.changed} />
+                </div>;
             break;
         case ( 'textarea' ):
             inputElement = <textarea
-                className={classes.InputElement}
+                className={inputClasses.join(' ')}
+                readOnly={props.readOnly}
                 {...props.elementConfig}
                 value={props.value}
                 onChange={props.changed} />;
@@ -62,25 +71,27 @@ const input = ( props ) => {
         case ( 'select' ):
             inputElement = (
                 <select
-                    className={classes.InputElement}
+                    className={inputClasses.join(' ')}
+                    disabled={props.readOnly}
                     value={props.value}
                     onChange={props.changed}>
-                    {props.elementConfig.options.map(option => (
+                    {hasElements ? props.elementConfig.options.map(option => (
                         <option key={option.value} value={option.value}>
                             {option.displayValue}
                         </option>
-                    ))}
+                    )) : hasElements}
                 </select>
             );
             break;
         case ( 'select-multiple' ):
                 inputElement = (
                     <div className={classes.Container}>
-                        <div /*className={classes.DivMain}*/>
+                        <div className={props.readOnly ? classes.Hidden : null} /*className={classes.DivMain}*/>
                             <div /*className={classes.DivLeft}*/> 
                                 <select id="selecteTest"
                                     // multiple={true}
-                                    className={classes.InputElement}
+                                    className={inputClasses.join(' ')}
+                                    disabled={props.readOnly}
                                     value={0}
                                     onChange={props.changed}
                                     
@@ -102,7 +113,7 @@ const input = ( props ) => {
                                     <p key={val.id}>{val.nome}  </p>     
                                 </div>  
                                 <div>
-                                    <Button key={val.id} btnType="Danger" type="button" clicked={rem} value={val.id} >-</Button> 
+                                    {!props.readOnly ? <Button key={val.id} btnType="Danger" type="button" clicked={rem} value={val.id} >-</Button> : null}
                                 </div> 
                             </div>                            
                         ))}                           
@@ -112,7 +123,8 @@ const input = ( props ) => {
                 break;
         case ( 'date' ):
             inputElement = <input
-                className={classes.InputElement}
+                className={inputClasses.join(' ')}
+                readOnly={props.readOnly}
                 {...props.elementConfig}
                  value={dataFormatada(props.value)}
                 onChange={props.changed} />;
@@ -124,13 +136,14 @@ const input = ( props ) => {
                         <div id="result">teste</div>
                         <img src={imagem} /> */}
 
-                        <ImageUpload file={props.value}/>
+                        <ImageUpload file={props.value} {...props}/>
                     </div>
                 );
             break;
         default:
             inputElement = <input
-                className={classes.InputElement}
+                className={inputClasses.join(' ')}
+                readOnly={props.readOnly}
                 {...props.elementConfig}
                 value={props.value}
                 onChange={props.changed} />;

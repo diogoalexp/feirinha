@@ -10,6 +10,7 @@ import com.ufpr.feirinha.repository.IUsuarioRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -64,4 +65,17 @@ public class UsuarioResource {
     public Usuario atualizaUsuario(@RequestBody @Valid Usuario usuario) {
             return usuarioRepository.save(usuario);
     }
+    
+    @ApiOperation(value="Salva um login")
+    @PostMapping("/login")
+    public long login(@RequestBody @Valid Usuario usuario) {
+        long id = 0;
+        List<Usuario> users = usuarioRepository.findByLoginAndSenha(usuario.getLogin(), usuario.getSenha());
+        if(!users.isEmpty())
+            id = users.get(0).getId();
+        
+        return id;
+    }
+    
+    
 }

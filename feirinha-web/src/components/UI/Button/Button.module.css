@@ -27,3 +27,43 @@
 .Danger {
     color: #944317;
 }
+
+.Voltar {
+    color: #606060;
+}
+
+
+.Criar {
+    background: #5C9210;
+    color: white;    
+    padding: 0px;
+    width: 60px;
+    margin: 0px 5px;
+    height: 35px;
+    border: 1px solid darkgreen;
+    border-radius: 6px;
+    box-sizing: border-box;
+    box-shadow: 1px 2px 3px darkolivegreen;
+}
+
+.Criar:hover {
+    box-shadow: 1px 1px 2px 3px lightblue;
+    background: white;
+    color: #5C9210;
+    border: 0px;
+}
+
+.CadastrarLogin {
+    color:	#0645AD;    
+    margin: 0px 0px 0px 0px;
+    text-align: right;
+    height: 0px;
+    width: 100%;
+    font-size: 10px;
+    text-decoration: underline;
+}
+
+.CadastrarLogin:hover {
+    color:	#3366BB;    
+}
+

@@ -10,11 +10,19 @@
     margin: 10px 10px;
     border-top: 5px;
     border-left: 5px;
-    border: 0px solid #eee;
+    border: 1px solid #eee;
     border-radius: 6px;
     box-sizing: border-box;
     box-shadow: 0 2px 3px #ccc;
   }
+
+.Card:hover {
+    box-shadow: 1px 1px 2px 3px lightblue;
+    border: 0px;
+}
+.Owner {
+    border: 1px solid lightsalmon;
+}
   
 .Imagem {
     padding: 8px;
@@ -50,4 +58,13 @@
     text-align: right;
     height: 10%;
     color: #421e0a;
+}
+
+.Edit {
+    float: right;
+}
+
+.Edit img {
+    width: 15%;
+    float: right;
 }

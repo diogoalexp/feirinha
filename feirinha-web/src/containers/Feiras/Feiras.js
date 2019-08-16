@@ -6,6 +6,9 @@ import axios from '../../axios-local';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import Details from '../../containers/Feiras/Details/Details';
 import Button from '../../components/UI/Button/Button';
+import auth from '../../hoc/Auth/Auth';
+import classes from './Feiras.module.css';
+import FormFeira from './FormFeira/FormFeira';
 
 
 
@@ -53,11 +56,20 @@ class Feiras extends Component {
         });
     }
 
+
+
     render () {
-        console.log("[render]: Feiras")
+        let criar = null;
+
+        if (auth.user() != null){
+            criar = <div className={classes.Cadastrar}>
+                        <Button btnType="Criar" clicked={() => this.addHandler(0)}>Criar</Button> 
+                    </div>
+        }
+
         return (
             <div>
-                <Button btnType="Success" clicked={() => this.addHandler(0)}>Novo</Button> 
+                {criar}
                 <br />
                 {this.state.feiras.map(feira => (
                     <Feira 
@@ -65,17 +77,18 @@ class Feiras extends Component {
                         nome={feira.nome} 
                         descr={feira.descr}
                         data={feira.data}
-                        img={feira.img}        
+                        img={feira.img}   
+                        owner={feira.usuario}     
                         edit={() => this.checkoutContinuedHandler(feira.id)}               
                         />
                         
                 ))}
                 <Route 
                     path={this.props.match.path + '/edit'} 
-                    render={(props) => (<Details id={this.state.selectedId} {...props} />)} />
+                    render={(props) => (<FormFeira id={this.state.selectedId} {...props} />)} />
                 <Route 
                     path={this.props.match.path + '/add'} 
-                    render={(props) => (<Details id={this.state.selectedId} {...props} />)} />
+                    render={(props) => (<FormFeira id={this.state.selectedId} {...props} />)} />
             </div>
         );
     }

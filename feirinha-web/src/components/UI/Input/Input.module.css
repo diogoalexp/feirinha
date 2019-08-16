@@ -5,9 +5,12 @@
 }
 
 .Label {
+    font-size: 14px;
     font-weight: bold;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
+    text-align: left;
+    color: darkgray;
 }
 
 .InputElement {
@@ -21,6 +24,10 @@
     box-sizing: border-box;
 }
 
+.ReadOnly {
+    background-color: #dddddd;
+}
+
 .InputElement:focus {
     outline: none;
     background-color: #ccc;
@@ -29,6 +36,10 @@
 .Invalid {
     border: 1px solid red;
     background-color: #FDA49A;
+}
+
+.Hidden {
+    display: none;
 }
 
 .DivMain {

@@ -7,6 +7,8 @@ package com.ufpr.feirinha.repository;
 
 import com.ufpr.feirinha.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -14,4 +16,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long>{
     Usuario findById(long id);
+    List<Usuario> findByLoginAndSenha(String login, String senha);
 }

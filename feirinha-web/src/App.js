@@ -9,6 +9,9 @@ import Feiras from './containers/Feiras/Feiras';
 import Participantes from './containers/Participantes/Participantes';
 import Produtos from './containers/Produtos/Produtos';
 import Details from './containers/Feiras/Details/Details';
+import Login from './containers/Login/Login';
+import Logout from './containers/Login/Logout';
+import FormFeira from './containers/Feiras/FormFeira/FormFeira';
 
 
 class App extends Component {
@@ -20,10 +23,12 @@ class App extends Component {
             <Route path="/feiras" component={Feiras} />
             <Route path="/participantes" component={Participantes} />
             <Route path="/produtos" component={Produtos} />
-            <Route path="/feira" component={Details} />
+            <Route path="/feira" component={FormFeira} />
+            <Route path="/login" component={Login} />
+            <Route path="/logout" component={Logout} />
             <Route path="/checkout" component={Checkout} />
             <Route path="/orders" component={Orders} />
-            <Route path="/" exact component={BurgerBuilder} />
+            <Route path="/" exact component={Feiras} />
           </Switch>
         </Layout>
       </div>

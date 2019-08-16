@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Card from '../Card/Card';
+import classes from './Feira.module.css';
 
 
 const feira = ( props ) => {
@@ -15,13 +16,16 @@ const feira = ( props ) => {
     }
       
     return (
+        <div className={classes.Feira}>
         <Card 
             img={props.img}
             nome={props.nome} 
             descr={props.descr}
             footer={footer}
             edit={props.edit}
+            owner={props.owner}
         />
+        </div>
     );
 };
 
