@@ -12,6 +12,9 @@ import Details from './containers/Feiras/Details/Details';
 import Login from './containers/Login/Login';
 import Logout from './containers/Login/Logout';
 import FormFeira from './containers/Feiras/FormFeira/FormFeira';
+import FormProduto from './containers/Produtos/FormProduto/FormProduto';
+import FormCadastro from './containers/Login/FormCadastro/FormCadastro';
+import FormParticipante from './containers/Participantes/FormParticipante/FormParticipante';
 
 
 class App extends Component {
@@ -24,6 +27,9 @@ class App extends Component {
             <Route path="/participantes" component={Participantes} />
             <Route path="/produtos" component={Produtos} />
             <Route path="/feira" component={FormFeira} />
+            <Route path="/participante" component={FormParticipante} />
+            <Route path="/produto" component={FormProduto} />
+            <Route path="/cadastro" component={FormCadastro} />
             <Route path="/login" component={Login} />
             <Route path="/logout" component={Logout} />
             <Route path="/checkout" component={Checkout} />

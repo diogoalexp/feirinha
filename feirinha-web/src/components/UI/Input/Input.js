@@ -61,8 +61,10 @@ const input = ( props ) => {
                 </div>;
             break;
         case ( 'textarea' ):
+            inputClasses.push(classes.TextArea);
             inputElement = <textarea
-                className={inputClasses.join(' ')}
+                rows="4" cols="50"
+                 className={inputClasses.join(' ')}
                 readOnly={props.readOnly}
                 {...props.elementConfig}
                 value={props.value}

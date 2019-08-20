@@ -10,6 +10,8 @@ const participante = ( props ) => {
             nome={props.nome} 
             descr={props.descr}
             footer={footer}
+            edit={props.edit}
+            owner={props.owner}
         />
     );
 };

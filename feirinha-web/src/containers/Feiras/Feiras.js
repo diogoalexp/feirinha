@@ -71,6 +71,7 @@ class Feiras extends Component {
             <div>
                 {criar}
                 <br />
+                <br />
                 {this.state.feiras.map(feira => (
                     <Feira 
                         key={feira.id}

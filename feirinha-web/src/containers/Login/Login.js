@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import { Route } from 'react-router-dom';
 
 import Button from '../../components/UI/Button/Button';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import classes from './Login.module.css';
 import Input from '../..//components/UI/Input/Input';
 import axios from '../..//axios-local';
+import FormCadastro from './FormCadastro/FormCadastro';
 
 class Login extends Component {
     state = {
@@ -15,12 +17,12 @@ class Login extends Component {
                     type: 'text',
                     placeholder: 'Login'
                 },
-                value: 'diogoalexp',
+                value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: true
+                touched: false
             },
             senha: {
                 elementType: 'input',
@@ -28,15 +30,15 @@ class Login extends Component {
                     type: 'text',
                     placeholder: 'Senha'
                 },
-                value: '123456',
+                value: '',
                 validation: {
                     required: true
                 },
                 valid: false,
-                touched: true
+                touched: false
             }
         },
-        formIsValid: true,
+        formIsValid: false,
         loading: false,
         auth: null
     }
@@ -131,9 +133,22 @@ class Login extends Component {
         
     }
 
-    Cadastrar = () =>{
-        alert("cadastrar");
+    Cadastrar2 = (id) => {
+        const queryParams = [];
+        queryParams.push('id=' + id);
+        const queryString = queryParams.join('&');
+        this.props.history.push({
+            pathname: '/cadastro/edit',
+            search: '?' + queryString
+        });
     }
+
+    Cadastrar = () => {
+        this.props.history.push({
+            pathname: '/cadastro/add'
+        });
+    }
+
 
     render () {
         let form = null;
@@ -185,6 +200,12 @@ class Login extends Component {
             <div className={classes.ContactData}>
                 <h4>Entrar no Sistema</h4>
                 {form}                
+                <Route 
+                    path={this.props.match.path + '/edit'} 
+                    render={(props) => (<FormCadastro id={this.state.selectedId} {...props} />)} />
+                <Route 
+                    path={this.props.match.path + '/add'} 
+                    render={(props) => (<FormCadastro id={this.state.selectedId} {...props} />)} />
             </div>
         );
     }

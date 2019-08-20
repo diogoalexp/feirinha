@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import classes from './FormFeira.module.css';
+import classes from './FormProduto.module.css';
 // import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 import axios from '../../../axios-local';
 import auth from '../../../hoc/Auth/Auth';
 import validation from '../../../hoc/Utils/Validation';
 
-class FormFeira extends Component {
+class FormProduto extends Component {
     state = {
         orderForm: {
             img: {
@@ -39,30 +39,16 @@ class FormFeira extends Component {
                 valid: false,
                 touched: false
             },
-            local: {
+            valor: {
                 elementType: 'input',
-                elementLabel: 'Local',
+                elementLabel: 'Valor',
                 elementConfig: {
                     type: 'text',
-                    placeholder: 'Local'
+                    placeholder: 'Valor'
                 },
                 value: '',
                 validation: {
-                    required: true
-                },
-                valid: false,
-                touched: false
-            },
-            endereco: {
-                elementType: 'input',
-                elementLabel: 'Endereço',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Endereço'
-                },
-                value: '',
-                validation: {
-                    required: true,
+                    required: false
                 },
                 valid: false,
                 touched: false
@@ -81,42 +67,15 @@ class FormFeira extends Component {
                 valid: false,
                 touched: false
             },
-            data: {
-                elementType: 'date',
-                elementLabel: 'Data',
-                elementConfig: {
-                    type: 'date',
-                    placeholder: 'dd/mm/aaaa'
-                },
-                value: '',
-                validation: {
-                    required: true
-                },
-                valid: false,
-                touched: false
-            },
-            recorrente: {
+            categoria: {
                 elementType: 'select',
-                elementLabel: 'Recorrente',
-                elementConfig: {
-                    options: [
-                        {value: true, displayValue: 'Sim'},
-                        {value: false, displayValue: 'Não'}
-                    ]
-                },
-                value: false,
-                validation: {},
-                valid: true
-            },
-            participantes: {
-                elementType: 'select-multiple',
-                elementLabel: 'Participantes',
+                elementLabel: 'Categoria',
                 elementConfig: {
                     options: [
                         {value: 0, displayValue: 'Select'}
                     ]
                 },
-                value: [],
+                value: 0,
                 validation: {
                     required: false
                 },
@@ -125,7 +84,7 @@ class FormFeira extends Component {
         },
         formIsValid: false,
         loading: false,
-        feira: null,
+        produto: null,
         user: 0,
         id: 0
     }
@@ -135,24 +94,27 @@ class FormFeira extends Component {
         this.setState( { loading: true } );
         const formData = {};
         for (let formElementIdentifier in this.state.orderForm) {
-            formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
+            if(formElementIdentifier == "categoria")
+                formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value != "0" ?  {id: parseInt(this.state.orderForm[formElementIdentifier].value) } : null;
+            else
+                formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
         formData["id"] = this.state.id;
         formData["usuario"] = auth.user();
         if (this.state.id === 0){
-            axios.post( '/feira', formData )
+            axios.post( '/produto', formData )
                 .then( response => {
                     this.setState( { loading: false } );
-                    this.props.history.replace( '/feiras') ;
+                    this.props.history.replace( '/produtos') ;
                 } )
                 .catch( error => {
                     this.setState( { loading: false } );
                 } );
         }else{
-            axios.put( '/feira', formData )
+            axios.put( '/produto', formData )
                 .then( response => {
                     this.setState( { loading: false } );
-                    this.props.history.replace( '/feiras') ;
+                    this.props.history.replace( '/produtos') ;
                 } )
                 .catch( error => {
                     this.setState( { loading: false } );
@@ -166,10 +128,10 @@ class FormFeira extends Component {
         const formData = {};
         formData["id"] = this.state.id;
 
-        axios.delete( '/feira',{ data: { id: this.state.id } })
+        axios.delete( '/produto',{ data: { id: this.state.id } })
             .then( response => {
                 this.setState( { loading: false } );
-                this.props.history.replace( '/feiras') ;
+                this.props.history.replace( '/produtos') ;
             } )
             .catch( error => {
                 this.setState( { loading: false } );
@@ -186,7 +148,7 @@ class FormFeira extends Component {
             ...updatedOrderForm[inputIdentifier]
         };
         
-        if(inputIdentifier == "participantes"){
+        if(inputIdentifier == "categoria123"){
             let notExists = updatedFormElement.value.find(x => x.id == event.target.value) == undefined && event.target.value != 0;
             if (notExists) {
                 let append = updatedFormElement.elementConfig.options.find(x => x.value == event.target.value);;
@@ -254,7 +216,10 @@ class FormFeira extends Component {
         let updatedFormElement = { 
             ...this.state.orderForm[key]
         }; 
-        updatedFormElement.value = value;
+        if(key == "categoria")
+            updatedFormElement.value = value != null ? value.id : "0";
+        else
+            updatedFormElement.value = value;
         updatedFormElement.valid = validation.check(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
         return updatedFormElement
@@ -273,7 +238,7 @@ class FormFeira extends Component {
             }
         }
         if(id > 0){
-            axios.get('/feira/' + id)
+            axios.get('/produto/' + id)
                 .then(res => {
                     const fetched = res.data;
                     
@@ -281,11 +246,12 @@ class FormFeira extends Component {
                         ...this.state.orderForm
                     };
                     for (let key in updatedOrderForm) {
-                        updatedOrderForm[key] = this.loadField(key, fetched[key]);
+                        // if (key != "valor")
+                            updatedOrderForm[key] = this.loadField(key, fetched[key]);
                     }
                     const user = fetched["usuario"] != null ? fetched["usuario"] : {};
 
-                    this.setState({loading: false, feira: fetched, orderForm: updatedOrderForm, user: user, id: id});
+                    this.setState({loading: false, produto: fetched, orderForm: updatedOrderForm, user: user, id: id});
                 })
                 .catch(err => {
                     this.setState({loading: false});
@@ -295,10 +261,10 @@ class FormFeira extends Component {
                 id: 0,
             } 
             let user = {id: auth.user().id};
-            this.setState({loading: false, feira: add, id: id, user: user });
+            this.setState({loading: false, produto: add, id: id, user: user });
         }
 
-        axios.get('/participante/')
+        axios.get('/categoria/')
         .then(res => {
             const fetched = res.data;
             const updatedOrderForm = {
@@ -306,7 +272,7 @@ class FormFeira extends Component {
             };
 
             let updatedFormElement = { 
-                ...this.state.orderForm["participantes"]
+                ...this.state.orderForm["categoria"]
             }; 
             
             const formElementsArray = [{
@@ -323,8 +289,8 @@ class FormFeira extends Component {
             updatedFormElement.elementConfig.options = formElementsArray;
             updatedFormElement.touched = false;
             
-            updatedOrderForm["participantes"] = updatedFormElement;
-            this.setState({loading: false, feira: fetched, orderForm: updatedOrderForm });
+            updatedOrderForm["categoria"] = updatedFormElement;
+            this.setState({loading: false, produto: fetched, orderForm: updatedOrderForm });
         })
         .catch(err => {
             this.setState({loading: false});
@@ -334,13 +300,13 @@ class FormFeira extends Component {
     render () {
         let form = null;
         let del = null;
-        let title = "Visualizar Feira";
+        let title = "Visualizar Produto";
 
         let owner = false;
         if (this.state.user != null && auth.user() != null){
             if (this.state.user.id == auth.user().id ){
                 owner = true;
-                title = "Gerenciar Feira";
+                title = "Gerenciar Produto";
             }
         }
 
@@ -350,7 +316,7 @@ class FormFeira extends Component {
             );
         }
 
-        if(this.state.feira != null){
+        if(this.state.produto != null){
             const formElementsArray = [];
             const orderForm = {
                 ...this.state.orderForm
@@ -399,4 +365,4 @@ class FormFeira extends Component {
     }
 }
 
-export default FormFeira;
+export default FormProduto;

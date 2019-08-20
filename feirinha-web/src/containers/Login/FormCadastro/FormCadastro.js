@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import classes from './FormFeira.module.css';
+import classes from './FormCadastro.module.css';
 // import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 import axios from '../../../axios-local';
 import auth from '../../../hoc/Auth/Auth';
 import validation from '../../../hoc/Utils/Validation';
 
-class FormFeira extends Component {
+class FormCadastro extends Component {
     state = {
         orderForm: {
             img: {
@@ -39,12 +39,12 @@ class FormFeira extends Component {
                 valid: false,
                 touched: false
             },
-            local: {
+            cpf: {
                 elementType: 'input',
-                elementLabel: 'Local',
+                elementLabel: 'CPF',
                 elementConfig: {
                     type: 'text',
-                    placeholder: 'Local'
+                    placeholder: 'CPF'
                 },
                 value: '',
                 validation: {
@@ -53,12 +53,40 @@ class FormFeira extends Component {
                 valid: false,
                 touched: false
             },
-            endereco: {
+            email: {
                 elementType: 'input',
-                elementLabel: 'Endereço',
+                elementLabel: 'Email',
                 elementConfig: {
                     type: 'text',
-                    placeholder: 'Endereço'
+                    placeholder: 'Email'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            },
+            login: {
+                elementType: 'input',
+                elementLabel: 'Login',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Login'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            },
+            senha: {
+                elementType: 'input',
+                elementLabel: 'Senha',
+                elementConfig: {
+                    type: 'password',
+                    placeholder: 'Senha'
                 },
                 value: '',
                 validation: {
@@ -81,9 +109,9 @@ class FormFeira extends Component {
                 valid: false,
                 touched: false
             },
-            data: {
+            nascimento: {
                 elementType: 'date',
-                elementLabel: 'Data',
+                elementLabel: 'Nascimento',
                 elementConfig: {
                     type: 'date',
                     placeholder: 'dd/mm/aaaa'
@@ -94,40 +122,11 @@ class FormFeira extends Component {
                 },
                 valid: false,
                 touched: false
-            },
-            recorrente: {
-                elementType: 'select',
-                elementLabel: 'Recorrente',
-                elementConfig: {
-                    options: [
-                        {value: true, displayValue: 'Sim'},
-                        {value: false, displayValue: 'Não'}
-                    ]
-                },
-                value: false,
-                validation: {},
-                valid: true
-            },
-            participantes: {
-                elementType: 'select-multiple',
-                elementLabel: 'Participantes',
-                elementConfig: {
-                    options: [
-                        {value: 0, displayValue: 'Select'}
-                    ]
-                },
-                value: [],
-                validation: {
-                    required: false
-                },
-                valid: true
-            }            
+            }          
         },
         formIsValid: false,
         loading: false,
-        feira: null,
-        user: 0,
-        id: 0
+        id: null
     }
 
     saveHandler = ( event ) => {
@@ -138,9 +137,8 @@ class FormFeira extends Component {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
         formData["id"] = this.state.id;
-        formData["usuario"] = auth.user();
         if (this.state.id === 0){
-            axios.post( '/feira', formData )
+            axios.post( '/usuario', formData )
                 .then( response => {
                     this.setState( { loading: false } );
                     this.props.history.replace( '/feiras') ;
@@ -149,7 +147,7 @@ class FormFeira extends Component {
                     this.setState( { loading: false } );
                 } );
         }else{
-            axios.put( '/feira', formData )
+            axios.put( '/usuario', formData )
                 .then( response => {
                     this.setState( { loading: false } );
                     this.props.history.replace( '/feiras') ;
@@ -166,7 +164,7 @@ class FormFeira extends Component {
         const formData = {};
         formData["id"] = this.state.id;
 
-        axios.delete( '/feira',{ data: { id: this.state.id } })
+        axios.delete( '/usuario',{ data: { id: this.state.id } })
             .then( response => {
                 this.setState( { loading: false } );
                 this.props.history.replace( '/feiras') ;
@@ -186,18 +184,8 @@ class FormFeira extends Component {
             ...updatedOrderForm[inputIdentifier]
         };
         
-        if(inputIdentifier == "participantes"){
-            let notExists = updatedFormElement.value.find(x => x.id == event.target.value) == undefined && event.target.value != 0;
-            if (notExists) {
-                let append = updatedFormElement.elementConfig.options.find(x => x.value == event.target.value);;
-                updatedFormElement.value.push({
-                    id: event.target.value,
-                    nome: append.displayValue
-                });
-            }
-        }else{
-            updatedFormElement.value = event.target.value;
-        }
+
+        updatedFormElement.value = event.target.value;
         updatedFormElement.valid = validation.check(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
         updatedOrderForm[inputIdentifier] = updatedFormElement;
@@ -209,26 +197,6 @@ class FormFeira extends Component {
         this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
     }
 
-    unselectHandler = (value, inputIdentifier) => {
-        const updatedOrderForm = {
-            ...this.state.orderForm
-        };
-        const updatedFormElement = { 
-            ...updatedOrderForm[inputIdentifier]
-        };
-
-        let element = updatedFormElement.value.find(x => x.id == value);
-        let index = updatedFormElement.value.indexOf(element);
-        if (index > -1) {
-            updatedFormElement.value.splice(index, 1);
-        }
-        updatedOrderForm[inputIdentifier] = updatedFormElement;
-        let formIsValid = true;
-        for (let inputIdentifier in updatedOrderForm) {
-            formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid;
-        }
-        this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
-    }
       
     imageHandler = (value, inputIdentifier) =>{
         let arquivo = value.split(',')[1];
@@ -265,15 +233,16 @@ class FormFeira extends Component {
     }
 
     componentDidMount () {
-        const query = new URLSearchParams( this.props.location.search );
         let id = 0;
-        for ( let param of query.entries() ) {
-            if (param[0] === 'id') {
-                id = param[1];                
-            }
+        console.log(auth.status());
+        console.log(auth.value());
+        console.log(auth.user());
+        if (auth.status()){
+            id = auth.user().id
         }
+        console.log("id:"+id);
         if(id > 0){
-            axios.get('/feira/' + id)
+            axios.get('/usuario/' + id)
                 .then(res => {
                     const fetched = res.data;
                     
@@ -283,64 +252,27 @@ class FormFeira extends Component {
                     for (let key in updatedOrderForm) {
                         updatedOrderForm[key] = this.loadField(key, fetched[key]);
                     }
-                    const user = fetched["usuario"] != null ? fetched["usuario"] : {};
 
-                    this.setState({loading: false, feira: fetched, orderForm: updatedOrderForm, user: user, id: id});
+                    this.setState({loading: false, usuario: fetched, orderForm: updatedOrderForm, id: id});
                 })
                 .catch(err => {
                     this.setState({loading: false});
                 });
         }else if (id === 0){
-            let add = {
-                id: 0,
-            } 
-            let user = {id: auth.user().id};
-            this.setState({loading: false, feira: add, id: id, user: user });
+            this.setState({loading: false, id: id });
         }
-
-        axios.get('/participante/')
-        .then(res => {
-            const fetched = res.data;
-            const updatedOrderForm = {
-                ...this.state.orderForm
-            };
-
-            let updatedFormElement = { 
-                ...this.state.orderForm["participantes"]
-            }; 
-            
-            const formElementsArray = [{
-                value: 0,
-                displayValue: "Select"
-            }];
-            for (let item in fetched) {
-                formElementsArray.push({
-                    value: fetched[item].id,
-                    displayValue: fetched[item].nome
-                });
-            }
-
-            updatedFormElement.elementConfig.options = formElementsArray;
-            updatedFormElement.touched = false;
-            
-            updatedOrderForm["participantes"] = updatedFormElement;
-            this.setState({loading: false, feira: fetched, orderForm: updatedOrderForm });
-        })
-        .catch(err => {
-            this.setState({loading: false});
-        });
     }
 
     render () {
         let form = null;
         let del = null;
-        let title = "Visualizar Feira";
+        let title = "Visualizar Cadastro";
 
-        let owner = false;
+        let owner = true;
         if (this.state.user != null && auth.user() != null){
             if (this.state.user.id == auth.user().id ){
                 owner = true;
-                title = "Gerenciar Feira";
+                title = "Gerenciar Cadastro";
             }
         }
 
@@ -350,7 +282,7 @@ class FormFeira extends Component {
             );
         }
 
-        if(this.state.feira != null){
+        if(this.state.id != null){
             const formElementsArray = [];
             const orderForm = {
                 ...this.state.orderForm
@@ -376,7 +308,6 @@ class FormFeira extends Component {
                             shouldValidate={formElement.config.validation}
                             touched={formElement.config.touched}
                             changed={(event) => this.inputChangedHandler(event, formElement.id)} 
-                            unselect={this.unselectHandler} 
                             upload={(event) => this.imageHandler(event, formElement.id )}
                             readOnly={!owner}
                         />
@@ -399,4 +330,4 @@ class FormFeira extends Component {
     }
 }
 
-export default FormFeira;
+export default FormCadastro;

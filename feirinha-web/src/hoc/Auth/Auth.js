@@ -18,7 +18,7 @@ class Auth {
     }
 
     static status = () => {
-        return this.getCookie("token") > 0;
+        return this.getCookie("token") != "" && this.getCookie("token") > 0;
     };
 
     static value = () => {
