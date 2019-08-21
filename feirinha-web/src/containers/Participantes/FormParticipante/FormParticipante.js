@@ -205,6 +205,10 @@ class FormParticipante extends Component {
         }
         this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid});
     }
+
+    viewHandler = (value) => {
+        this.props.history.push( '/produto/edit?id='+ value);
+    }
       
     imageHandler = (value, inputIdentifier) =>{
         let arquivo = value.split(',')[1];
@@ -386,9 +390,10 @@ class FormParticipante extends Component {
                             invalid={!formElement.config.valid}
                             shouldValidate={formElement.config.validation}
                             touched={formElement.config.touched}
-                            changed={(event) => this.inputChangedHandler(event, formElement.id)} 
+                            changed={(event) => this.inputChangedHandler(event, formElement.id)}                             
                             unselect={this.unselectHandler} 
-                            upload={(event) => this.imageHandler(event, formElement.id )}
+                            view={this.viewHandler}
+                            upload={(event) => this.imageHandler(event, formElement.id )}                            
                             readOnly={!owner}
                         />
                     ))}

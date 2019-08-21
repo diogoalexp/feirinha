@@ -1,8 +1,8 @@
  .Card {
     /* position: relative; */
     background: white;
-    width: 220px;
-    height: 280px;
+    width: 300px;
+    height: 360px;
     color: black;    
     float: left;
     overflow: hidden;
@@ -67,4 +67,13 @@
 .Edit img {
     width: 15%;
     float: right;
+}
+
+@media (max-width: 500px) {
+    .Card {
+        margin: 10px 10px 10px 10px;
+        width: 95%;
+        height: 100%;
+    }
+    
 }

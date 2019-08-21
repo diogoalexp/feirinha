@@ -331,6 +331,10 @@ class FormFeira extends Component {
         });
     }
 
+    viewHandler = (value) => {
+        this.props.history.push( '/participante/edit?id='+ value);
+    }
+
     render () {
         let form = null;
         let del = null;
@@ -378,6 +382,7 @@ class FormFeira extends Component {
                             changed={(event) => this.inputChangedHandler(event, formElement.id)} 
                             unselect={this.unselectHandler} 
                             upload={(event) => this.imageHandler(event, formElement.id )}
+                            view={this.viewHandler}
                             readOnly={!owner}
                         />
                     ))}
@@ -392,7 +397,7 @@ class FormFeira extends Component {
         }
         return (
             <div className={classes.ContactData}>
-                <h4>{title}</h4>
+                <h1>{title}</h1>
                 {form}
             </div>
         );

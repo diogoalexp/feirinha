@@ -1,5 +1,3 @@
-import React from 'react';
-
 class Validation {
     static check(value, rules) {
         let isValid = true;

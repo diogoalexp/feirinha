@@ -9,9 +9,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -59,8 +61,8 @@ public class Feira extends AbstractEntity{
     @JoinColumn(name="usuario_id")
     private Usuario usuario;
     
-    @ManyToMany
-    private List<Participante> participantes = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Participante> participantes ;
       
     /**
      * @return the nome
@@ -191,14 +193,14 @@ public class Feira extends AbstractEntity{
     /**
      * @return the participantes
      */
-    public List<Participante> getParticipantes() {
+    public Set<Participante> getParticipantes() {
         return participantes;
     }
 
     /**
      * @param participantes the participantes to set
      */
-    public void setParticipantes(List<Participante> participantes) {
+    public void setParticipantes(Set<Participante> participantes) {
         this.participantes = participantes;
     }
 }

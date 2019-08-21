@@ -29,8 +29,15 @@ const input = ( props ) => {
 
     let rem = (e) =>{
         console.log("[rem]");
-        // console.log(value.key);
-        props.unselect(e.target.value, "participantes")
+        // console.log(value.key);;
+        props.unselect(e.target.value, "participantes");
+        // return value;
+    }
+
+    let view = (e) =>{
+        console.log("[rem]");
+        // console.log(value.key);;
+        props.view(e.target.value);
         // return value;
     }
 
@@ -112,7 +119,7 @@ const input = ( props ) => {
                         {props.value.map(val => (
                             <div key={val.id} className={classes.DivMain}>
                                 <div className={classes.DivLeft}> 
-                                    <p key={val.id}>{val.nome}  </p>     
+                                    <Button key={val.id} btnType="Link" type="button" clicked={view} value={val.id} >{val.nome}</Button>
                                 </div>  
                                 <div>
                                     {!props.readOnly ? <Button key={val.id} btnType="Danger" type="button" clicked={rem} value={val.id} >-</Button> : null}

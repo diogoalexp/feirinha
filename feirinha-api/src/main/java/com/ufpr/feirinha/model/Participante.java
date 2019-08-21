@@ -8,8 +8,10 @@ package com.ufpr.feirinha.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -48,8 +50,8 @@ public class Participante extends AbstractEntity {
     @JoinColumn(name="usuario_id")
     private Usuario usuario;
     
-    @ManyToMany
-    private List<Produto> produtos = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Produto> produtos;
     
     /**
      * @return the nome
@@ -138,14 +140,14 @@ public class Participante extends AbstractEntity {
     /**
      * @return the produtos
      */
-    public List<Produto> getProdutos() {
+    public Set<Produto> getProdutos() {
         return produtos;
     }
 
     /**
      * @param produtos the produtos to set
      */
-    public void setProdutos(List<Produto> produtos) {
+    public void setProdutos(Set<Produto> produtos) {
         this.produtos = produtos;
     }
 }

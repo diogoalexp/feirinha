@@ -1,5 +1,3 @@
-import React from 'react';
-
 class Auth {
     static getCookie = (cname) => {
         var name = cname + "=";

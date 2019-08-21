@@ -5,10 +5,17 @@
  */
 package com.ufpr.feirinha.model;
 
+import javax.persistence.Column;
+import javax.persistence.Lob;
+
 /**
  *
  * @author diogo
  */
-public class Voucher {
+public class Imagem {
+    
+    @Lob
+//    @Column(name="img", nullable = true)
+    private byte[] img;
     
 }

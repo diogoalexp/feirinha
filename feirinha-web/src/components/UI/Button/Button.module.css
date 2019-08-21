@@ -53,6 +53,15 @@
     border: 0px;
 }
 
+.Link {
+    color:	#0645AD;    
+    text-decoration: underline;
+}
+
+.Link:hover {
+    color:	#3366BB;    
+}
+
 .CadastrarLogin {
     color:	#0645AD;    
     margin: 0px 0px 0px 0px;
