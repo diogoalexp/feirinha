@@ -9,13 +9,17 @@ import Button from '../../components/UI/Button/Button';
 import auth from '../../hoc/Auth/Auth';
 import classes from './Feiras.module.css';
 import FormFeira from './FormFeira/FormFeira';
+import Convert from '../../hoc/Utils/Convert';
+import Input from '../../components/UI/Input/Input';
 
 
 
 class Feiras extends Component {
     state = {
         feiras: [],
-        loading: true
+        historico: false,
+        loading: true,
+        agora: 0
     }
 
     
@@ -23,13 +27,30 @@ class Feiras extends Component {
         axios.get('/feira')
             .then(res => {
                 const fetchedLista = [];
+                let agora = Date.now();
                 for (let key in res.data) {
+                    let fetched = res.data[key];
+                    let x = new Date(fetched.data);
+                    let tempData = new Date(x.getFullYear(),x.getMonth(), x.getUTCDate());
+
+                    if(fetched.recorrente && agora > tempData.getTime() ){
+                        fetched.data = Convert.nextDay(tempData);
+                    }else{
+                        fetched.data = tempData;
+                    }
+
                     fetchedLista.push({
-                        ...res.data[key]
+                        ...fetched
                         // ,id: key
                     });
                 }
-                this.setState({loading: false, feiras: fetchedLista});
+                fetchedLista.sort(function(a,b){
+                    // Turn your strings into dates, and then subtract them
+                    // to get a value that is either negative, positive, or zero.
+                    return new Date(a.data) - new Date(b.data);
+                  });
+
+                this.setState({loading: false, feiras: fetchedLista, agora: agora});
             })
             .catch(err => {
                 this.setState({loading: false});
@@ -56,23 +77,38 @@ class Feiras extends Component {
         });
     }
 
-
+    handleCheckboxChange = event => {
+        console.log("CHECK");
+        this.setState({ historico: event.target.checked });
+    }
 
     render () {
         let criar = null;
-
+        let history = null;
+        const Checkbox = props => (
+            <input type="checkbox" {...props} />
+          )
         if (auth.user() != null){
             criar = <div className={classes.Cadastrar}>
                         <Button btnType="Criar" clicked={() => this.addHandler(0)}>Criar</Button> 
                     </div>
+            history = <div>
+                    <Checkbox             
+                        checked={this.state.historico}
+                        onChange={this.handleCheckboxChange}>
+                    </Checkbox>
+                    <span>Histórico</span>
+                </div>
         }
 
         return (
             <div>
                 {criar}
+                {history}
                 <br />
                 <br />
                 {this.state.feiras.map(feira => (
+                    (feira.data.getTime() >= this.state.agora  ||  this.state.historico) ?
                     <Feira 
                         key={feira.id}
                         nome={feira.nome} 
@@ -80,8 +116,10 @@ class Feiras extends Component {
                         data={feira.data}
                         img={feira.img}   
                         owner={feira.usuario}     
+                        recorrente={feira.recorrente}     
                         edit={() => this.checkoutContinuedHandler(feira.id)}               
                         />
+                        : null
                         
                 ))}
                 <Route 

@@ -20,6 +20,25 @@ class Convert {
         const blob = new Blob(byteArrays, {type: contentType});
         return byteArrays;
     }
+
+    
+    static dataFormatada(date){
+      const data = new Date(date),
+          dia  = data.getUTCDate().toString(),
+          diaF = (dia.length === 1) ? '0'+dia : dia,
+          mes  = (data.getMonth()+1).toString(), //+1 pois no getMonth Janeiro começa com zero.
+          mesF = (mes.length === 1) ? '0'+mes : mes,
+          anoF = data.getFullYear();
+      return anoF+"-"+mesF+"-"+diaF;
+  }
+
+  static nextDay(x){
+    let now = new Date();    
+    while(now.getDay() != x.getDay()){
+      now.setDate(now.getDate() + 1);
+    }
+    return now;
+}
 }
 
 

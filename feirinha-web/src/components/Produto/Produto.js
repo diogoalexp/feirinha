@@ -3,7 +3,7 @@ import React from 'react';
 import Card from '../Card/Card';
 
 const produto = ( props ) => {
-    const footer = props.valor != null ? "R$ " + props.valor : null;
+    const footer = props.valor != null ? "R$ " + props.valor.toFixed(2) : null;
     return (
         <Card 
             img={props.img}

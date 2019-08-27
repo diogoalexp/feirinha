@@ -297,10 +297,11 @@ class FormParticipante extends Component {
                 displayValue: "Select"
             }];
             for (let item in fetched) {
-                formElementsArray.push({
-                    value: fetched[item].id,
-                    displayValue: fetched[item].nome
-                });
+                if(fetched[item].usuario.id == auth.value())
+                    formElementsArray.push({
+                        value: fetched[item].id,
+                        displayValue: fetched[item].nome
+                    });
             }
 
             updatedFormElement.elementConfig.options = formElementsArray;

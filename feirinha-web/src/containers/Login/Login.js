@@ -27,7 +27,7 @@ class Login extends Component {
             senha: {
                 elementType: 'input',
                 elementConfig: {
-                    type: 'text',
+                    type: 'password',
                     placeholder: 'Senha'
                 },
                 value: '',

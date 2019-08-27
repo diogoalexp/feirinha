@@ -48,7 +48,8 @@ class FormCadastro extends Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    isCPF: true
                 },
                 valid: false,
                 touched: false
@@ -63,6 +64,7 @@ class FormCadastro extends Component {
                 value: '',
                 validation: {
                     required: true,
+                    isEmail: true
                 },
                 valid: false,
                 touched: false
@@ -91,6 +93,7 @@ class FormCadastro extends Component {
                 value: '',
                 validation: {
                     required: true,
+                    isPass: true
                 },
                 valid: false,
                 touched: false

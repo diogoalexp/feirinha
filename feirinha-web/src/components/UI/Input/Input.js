@@ -3,6 +3,7 @@ import React from 'react';
 import classes from './Input.module.css';
 import ImageUpload from '../ImageUpload/ImageUpload';
 import Button from '../Button/Button';
+import Validation from '../../../hoc/Utils/Validation';
 
 const input = ( props ) => {
     let inputElement = null;
@@ -30,7 +31,7 @@ const input = ( props ) => {
     let rem = (e) =>{
         console.log("[rem]");
         // console.log(value.key);;
-        props.unselect(e.target.value, "participantes");
+        props.unselect(e.target.value, props.name);
         // return value;
     }
 
@@ -64,7 +65,8 @@ const input = ( props ) => {
                     readOnly={props.readOnly}
                     {...props.elementConfig}
                     value={props.value}                
-                    onChange={props.changed} />
+                    onChange={props.changed}
+                    />
                 </div>;
             break;
         case ( 'textarea' ):
