@@ -61,7 +61,7 @@ public class Feira extends AbstractEntity{
     @JoinColumn(name="usuario_id")
     private Usuario usuario;
     
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Participante> participantes ;
       
     /**

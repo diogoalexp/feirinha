@@ -134,6 +134,7 @@ class FormProduto extends Component {
                 this.props.history.replace( '/produtos') ;
             } )
             .catch( error => {
+                alert("Esse item está sendo utilizado e não pode ser removido.");
                 this.setState( { loading: false } );
             } );
     }

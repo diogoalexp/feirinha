@@ -148,6 +148,7 @@ class FormParticipante extends Component {
                 this.props.history.replace( '/participantes') ;
             } )
             .catch( error => {
+                alert("Esse item está sendo utilizado e não pode ser removido.");
                 this.setState( { loading: false } );
             } );
     }

@@ -151,6 +151,18 @@ const input = ( props ) => {
                     </div>
                 );
             break;
+        case ( 'checkbox' ):
+            inputElement = (
+                    <div className={classes.CheckBox}>
+                        <input 
+                            type="checkbox" 
+                            checked={props.value}
+                            onChange={props.changed}                              
+                        />
+                        <label>{props.legenda}</label>
+                    </div>
+                );
+            break;
         default:
             inputElement = <input
                 className={inputClasses.join(' ')}

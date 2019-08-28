@@ -316,7 +316,7 @@ class FormCadastro extends Component {
                         />
                     ))}
                     <Button btnType="Voltar" type="button" clicked={this.checkoutCancelledHandler} >Voltar</Button>
-                    {del}
+                    {/* {del} */}
                     {owner ?  <Button btnType="Success" disabled={!this.state.formIsValid}>Save</Button> : null}
                 </form>
             );

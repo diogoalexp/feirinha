@@ -18,8 +18,14 @@ class Feiras extends Component {
     state = {
         feiras: [],
         historico: false,
+        minhas: false,
         loading: true,
-        agora: 0
+        pesquisa: "",
+        agora: 0,
+        elementConfig: {
+            type: 'text',
+            placeholder: 'Pesquisar'
+        },  
     }
 
     
@@ -78,37 +84,64 @@ class Feiras extends Component {
     }
 
     handleCheckboxChange = event => {
-        console.log("CHECK");
         this.setState({ historico: event.target.checked });
+    }
+    handleCheckboxMinhasChange = event => {
+        this.setState({ minhas: event.target.checked });
+    }
+
+    inputChangedHandler = (event) => {
+        this.setState({pesquisa: event.target.value});
     }
 
     render () {
         let criar = null;
         let history = null;
-        const Checkbox = props => (
-            <input type="checkbox" {...props} />
-          )
+        let minhas = null;
         if (auth.user() != null){
             criar = <div className={classes.Cadastrar}>
                         <Button btnType="Criar" clicked={() => this.addHandler(0)}>Criar</Button> 
                     </div>
             history = <div>
-                    <Checkbox             
+                    <Input     
+                        legenda="Histórico"
+                        elementType="checkbox"                
                         checked={this.state.historico}
-                        onChange={this.handleCheckboxChange}>
-                    </Checkbox>
-                    <span>Histórico</span>
+                        changed={(event) => this.handleCheckboxChange(event)} 
+                    ></Input>
                 </div>
+            minhas = <div>
+                <Input     
+                    legenda="Minhas Feiras"
+                    elementType="checkbox"                
+                    checked={this.state.minhas}
+                    changed={(event) => this.handleCheckboxMinhasChange(event)} 
+                ></Input>
+            </div>
         }
+        let pesquisa = <div>
+                            <Input     
+                                value={this.state.pesquisa}
+                                elementType="input"     
+                                readOnly={false}  
+                                elementConfig={this.state.elementConfig}
+                                changed={(event) => this.inputChangedHandler(event)} 
+                            ></Input>
+                        </div>
 
         return (
             <div>
                 {criar}
-                {history}
-                <br />
-                <br />
+                <table>
+                    <tr>
+                        <td>{pesquisa}</td>
+                        <td>{minhas}</td>
+                        <td>{history}</td>
+                    </tr>
+                </table>
+
                 {this.state.feiras.map(feira => (
-                    (feira.data.getTime() >= this.state.agora  ||  this.state.historico) ?
+                    (feira.data.getTime() >= this.state.agora  ||  this.state.historico) && (this.state.minhas ? auth.value() == feira.usuario.id : true ) && (this.state.pesquisa == "" || feira.nome.includes(this.state.pesquisa)) ?
                     <Feira 
                         key={feira.id}
                         nome={feira.nome} 

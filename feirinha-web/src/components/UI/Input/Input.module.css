@@ -28,6 +28,11 @@
     resize:vertical;
 }
 
+.CheckBox {
+    float: left;
+    /* background-color: red; */
+}
+
 
 
 .ReadOnly {
