@@ -17,14 +17,14 @@ const feira = ( props ) => {
       
     return (
         <div className={classes.Feira}>
-        <Card 
-            img={props.img}
-            nome={props.nome} 
-            descr={props.descr}
-            footer={footer}
-            edit={props.edit}
-            owner={props.owner}
-        />
+            <Card 
+                img={props.img}
+                nome={props.nome} 
+                descr={props.descr}
+                footer={footer}
+                edit={props.edit}
+                owner={props.owner}
+            />
         </div>
     );
 };

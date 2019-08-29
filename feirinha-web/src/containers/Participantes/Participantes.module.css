@@ -1,3 +1,44 @@
 .Cadastrar {
     float: right;
 }
+
+.FilterProcurar {    
+    width: 300px;
+    float: left;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.Filter {    
+    float: left;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.FilterBlock{
+    clear: both; 
+    float: left; 
+    display: block; 
+    position: relative; 
+    width: 100%;    
+}
+
+.Search {
+    float: right;
+    position: relative;
+
+}
+
+.Search img {    
+	position: absolute;
+	width:24px;
+	height:24px;
+	bottom:16px;
+    /* left: 10px;  */
+    right: 15px;
+	/* background-color:#0C9; */
+	/* color:#FFF; */
+	border-radius:50px;
+	/* text-align:center; */
+	/* box-shadow: 2px 2px 3px #999; */
+}

@@ -15,6 +15,7 @@ import FormFeira from './containers/Feiras/FormFeira/FormFeira';
 import FormProduto from './containers/Produtos/FormProduto/FormProduto';
 import FormCadastro from './containers/Login/FormCadastro/FormCadastro';
 import FormParticipante from './containers/Participantes/FormParticipante/FormParticipante';
+import Home from './containers/Home/Home';
 
 
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
       <div>
         <Layout>
           <Switch>
+            <Route path="/home" component={Home} />
             <Route path="/feiras" component={Feiras} />
             <Route path="/participantes" component={Participantes} />
             <Route path="/produtos" component={Produtos} />

@@ -30,7 +30,8 @@ class FormParticipante extends Component {
                 elementLabel: 'Nome',
                 elementConfig: {
                     type: 'text',
-                    placeholder: 'Nome'
+                    placeholder: 'Nome',
+                    maxLength: 50
                 },
                 value: '',
                 validation: {
@@ -49,6 +50,7 @@ class FormParticipante extends Component {
                 value: '',
                 validation: {
                     required: true,
+                    maxLength: 256
                 },
                 valid: false,
                 touched: false
@@ -62,7 +64,8 @@ class FormParticipante extends Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    maxLength: 256
                 },
                 valid: false,
                 touched: false

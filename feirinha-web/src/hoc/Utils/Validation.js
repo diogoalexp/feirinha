@@ -1,3 +1,5 @@
+import Convert from './Convert';
+
 class Validation {
     static check(value, rules) {
         let isValid = true;
@@ -25,6 +27,16 @@ class Validation {
         if (rules.isNumeric) {
             const pattern = /^\d+$/;
             isValid = pattern.test(value) && isValid
+        }
+
+        if (rules.isCurrency) {
+            const pattern = /^[0-9]+(\.[0-9]{1,2})?$/;
+            isValid = pattern.test(value) && isValid
+        }
+
+        if (rules.isDate) {
+            const pattern = /^(\d{4})(-)(((0)[0-9])|((1)[0-2]))(-)([0-2][0-9]|(3)[0-1])$/;
+            isValid = pattern.test(Convert.dataFormatada(value)) && isValid
         }
 
         if (rules.isCPF) {            

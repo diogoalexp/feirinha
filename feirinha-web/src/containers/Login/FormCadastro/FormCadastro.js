@@ -34,7 +34,8 @@ class FormCadastro extends Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    maxLength: 100
                 },
                 valid: false,
                 touched: false
@@ -64,7 +65,8 @@ class FormCadastro extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    isEmail: true
+                    isEmail: true,
+                    maxLength: 100
                 },
                 valid: false,
                 touched: false
@@ -79,6 +81,7 @@ class FormCadastro extends Component {
                 value: '',
                 validation: {
                     required: true,
+                    maxLength: 12
                 },
                 valid: false,
                 touched: false
@@ -93,7 +96,8 @@ class FormCadastro extends Component {
                 value: '',
                 validation: {
                     required: true,
-                    isPass: true
+                    isPass: true,
+                    maxLength: 16
                 },
                 valid: false,
                 touched: false
@@ -107,7 +111,8 @@ class FormCadastro extends Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    maxLength: 100
                 },
                 valid: false,
                 touched: false
@@ -121,7 +126,8 @@ class FormCadastro extends Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    isDate: true
                 },
                 valid: false,
                 touched: false

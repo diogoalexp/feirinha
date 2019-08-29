@@ -155,11 +155,10 @@ const input = ( props ) => {
             inputElement = (
                     <div className={classes.CheckBox}>
                         <input 
-                            type="checkbox" 
+                            {...props.elementConfig}
                             checked={props.value}
                             onChange={props.changed}                              
-                        />
-                        <label>{props.legenda}</label>
+                        />                        
                     </div>
                 );
             break;
@@ -176,6 +175,7 @@ const input = ( props ) => {
         <div className={classes.Input}>
             <label className={classes.Label}>{props.label}</label>
             {inputElement}
+            <label>{props.legenda}</label>
         </div>
     );
 

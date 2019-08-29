@@ -34,7 +34,8 @@ class FormFeira extends Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    maxLength: 50
                 },
                 valid: false,
                 touched: false
@@ -48,7 +49,8 @@ class FormFeira extends Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    maxLength: 256
                 },
                 valid: false,
                 touched: false
@@ -63,6 +65,7 @@ class FormFeira extends Component {
                 value: '',
                 validation: {
                     required: true,
+                    maxLength: 256
                 },
                 valid: false,
                 touched: false
@@ -76,7 +79,8 @@ class FormFeira extends Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    maxLength: 256
                 },
                 valid: false,
                 touched: false
@@ -90,7 +94,8 @@ class FormFeira extends Component {
                 },
                 value: '',
                 validation: {
-                    required: true
+                    required: true,
+                    isDate: true
                 },
                 valid: false,
                 touched: false

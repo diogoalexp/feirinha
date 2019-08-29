@@ -11,21 +11,56 @@ import classes from './Feiras.module.css';
 import FormFeira from './FormFeira/FormFeira';
 import Convert from '../../hoc/Utils/Convert';
 import Input from '../../components/UI/Input/Input';
+import search from '../../assets/images/search-icon.png';
 
 
 
 class Feiras extends Component {
     state = {
         feiras: [],
-        historico: false,
-        minhas: false,
         loading: true,
-        pesquisa: "",
         agora: 0,
-        elementConfig: {
-            type: 'text',
-            placeholder: 'Pesquisar'
-        },  
+        Field: {
+            pesquisa: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Pesquisar'
+                },
+                value: "",
+                validation: {
+                    required: false
+                },
+                valid: true,
+                touched: false
+            },
+            historico: {
+                elementType: 'checkbox',
+                elementConfig: {
+                    type: 'checkbox',
+                    placeholder: 'Histórico'
+                },
+                value: false,
+                validation: {
+                    required: false
+                },
+                valid: true,
+                touched: false
+            },
+            minhas: {
+                elementType: 'checkbox',
+                elementConfig: {
+                    type: 'checkbox',
+                    placeholder: 'Minhas Feiras'
+                },
+                value: false,
+                validation: {
+                    required: false
+                },
+                valid: true,
+                touched: false
+            }
+        }
     }
 
     
@@ -83,15 +118,31 @@ class Feiras extends Component {
         });
     }
 
-    handleCheckboxChange = event => {
-        this.setState({ historico: event.target.checked });
+    handleCheckboxHistoryChange = event => {
+        const field = {
+            ...this.state.Field
+        };
+        field.historico.value = event.target.checked;
+        this.setState({Field: field});
     }
     handleCheckboxMinhasChange = event => {
-        this.setState({ minhas: event.target.checked });
+        const field = {
+            ...this.state.Field
+        };
+        field.minhas.value = event.target.checked;
+        this.setState({Field: field});
     }
 
     inputChangedHandler = (event) => {
-        this.setState({pesquisa: event.target.value});
+        const field = {
+            ...this.state.Field
+        };
+        field.pesquisa.value = event.target.value;
+        this.setState({Field: field});
+    }
+
+    checkVisibility = (feira) => {
+        return (feira.data.getTime() >= this.state.agora || this.state.Field.historico.value) && (this.state.Field.minhas.value ? auth.value() == feira.usuario.id : true ) && (this.state.Field.pesquisa.value == "" || feira.nome.includes(this.state.Field.pesquisa.value));
     }
 
     render () {
@@ -102,55 +153,56 @@ class Feiras extends Component {
             criar = <div className={classes.Cadastrar}>
                         <Button btnType="Criar" clicked={() => this.addHandler(0)}>Criar</Button> 
                     </div>
-            history = <div>
-                    <Input     
-                        legenda="Histórico"
-                        elementType="checkbox"                
-                        checked={this.state.historico}
-                        changed={(event) => this.handleCheckboxChange(event)} 
-                    ></Input>
-                </div>
             minhas = <div>
                 <Input     
-                    legenda="Minhas Feiras"
-                    elementType="checkbox"                
-                    checked={this.state.minhas}
+                    legenda={this.state.Field.minhas.elementConfig.placeholder}
+                    value={this.state.Field.minhas.value}
+                    elementType={this.state.Field.minhas.elementType}
+                    elementConfig={this.state.Field.minhas.elementConfig}
                     changed={(event) => this.handleCheckboxMinhasChange(event)} 
+                ></Input>
+            </div>
+            history = <div>
+                <Input     
+                    legenda={this.state.Field.historico.elementConfig.placeholder}
+                    value={this.state.Field.historico.value}
+                    elementType={this.state.Field.historico.elementType}
+                    elementConfig={this.state.Field.historico.elementConfig}
+                    changed={(event) => this.handleCheckboxHistoryChange(event)} 
                 ></Input>
             </div>
         }
         let pesquisa = <div>
-                            <Input     
-                                value={this.state.pesquisa}
-                                elementType="input"     
-                                readOnly={false}  
-                                elementConfig={this.state.elementConfig}
-                                changed={(event) => this.inputChangedHandler(event)} 
-                            ></Input>
-                        </div>
-
+                <Input     
+                    value={this.state.Field.pesquisa.value}
+                    elementType={this.state.Field.pesquisa.elementType}
+                    elementConfig={this.state.Field.pesquisa.elementConfig}
+                    changed={(event) => this.inputChangedHandler(event)} 
+                ></Input>
+                <div className={classes.Search}>
+                        <img src={search} alt="Sem Foto" />
+                </div>
+            </div>
         return (
-            <div>
-                {criar}
-                <table>
-                    <tr>
-                        <td>{pesquisa}</td>
-                        <td>{minhas}</td>
-                        <td>{history}</td>
-                    </tr>
-                </table>
+            <div>            
+                <div className={classes.FilterBlock}>
+                    {criar}
+                    <div className={classes.FilterProcurar}>{pesquisa}</div>
+                    <div className={classes.Filter}>{minhas}</div>
+                    <div className={classes.Filter}>{history}</div>
+                </div>
 
                 {this.state.feiras.map(feira => (
-                    (feira.data.getTime() >= this.state.agora  ||  this.state.historico) && (this.state.minhas ? auth.value() == feira.usuario.id : true ) && (this.state.pesquisa == "" || feira.nome.includes(this.state.pesquisa)) ?
+                    this.checkVisibility(feira) ?
                     <Feira 
                         key={feira.id}
-                        nome={feira.nome} 
+                        nome={feira.nome}
                         descr={feira.descr}
                         data={feira.data}
-                        img={feira.img}   
-                        owner={feira.usuario}     
-                        recorrente={feira.recorrente}     
-                        edit={() => this.checkoutContinuedHandler(feira.id)}               
+                        img={feira.img}
+                        owner={feira.usuario}
+                        recorrente={feira.recorrente}
+                        edit={() => this.checkoutContinuedHandler(feira.id)}
                         />
                         : null
                         
