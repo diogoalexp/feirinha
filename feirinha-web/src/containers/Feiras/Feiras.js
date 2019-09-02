@@ -4,7 +4,6 @@ import { Route } from 'react-router-dom';
 import Feira from '../../components/Feira/Feira';
 import axios from '../../axios-local';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
-import Details from '../../containers/Feiras/Details/Details';
 import Button from '../../components/UI/Button/Button';
 import auth from '../../hoc/Auth/Auth';
 import classes from './Feiras.module.css';

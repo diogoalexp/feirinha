@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from './FormCadastro.module.css';
-// import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 import axios from '../../../axios-local';
 import auth from '../../../hoc/Auth/Auth';
@@ -150,7 +149,7 @@ class FormCadastro extends Component {
             axios.post( '/usuario', formData )
                 .then( response => {
                     this.setState( { loading: false } );
-                    this.props.history.replace( '/feiras') ;
+                    this.props.history.replace( '/home') ;
                 } )
                 .catch( error => {
                     this.setState( { loading: false } );
@@ -159,7 +158,7 @@ class FormCadastro extends Component {
             axios.put( '/usuario', formData )
                 .then( response => {
                     this.setState( { loading: false } );
-                    this.props.history.replace( '/feiras') ;
+                    this.props.history.replace( '/home') ;
                 } )
                 .catch( error => {
                     this.setState( { loading: false } );
@@ -176,7 +175,7 @@ class FormCadastro extends Component {
         axios.delete( '/usuario',{ data: { id: this.state.id } })
             .then( response => {
                 this.setState( { loading: false } );
-                this.props.history.replace( '/feiras') ;
+                this.props.history.replace( '/home') ;
             } )
             .catch( error => {
                 this.setState( { loading: false } );
@@ -275,7 +274,7 @@ class FormCadastro extends Component {
     render () {
         let form = null;
         let del = null;
-        let title = "Visualizar Cadastro";
+        let title = "Gerenciar Cadastro";
 
         let owner = true;
         if (this.state.user != null && auth.user() != null){

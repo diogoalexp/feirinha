@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import Button from '../../../components/UI/Button/Button';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import classes from './FormProduto.module.css';
-// import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 import axios from '../../../axios-local';
 import auth from '../../../hoc/Auth/Auth';
