@@ -142,7 +142,7 @@ class Feiras extends Component {
     }
 
     checkVisibility = (feira) => {
-        return (feira.data.getTime() >= this.state.agora || this.state.Field.historico.value) && (this.state.Field.minhas.value ? auth.value() == feira.usuario.id : true ) && (this.state.Field.pesquisa.value == "" || feira.nome.includes(this.state.Field.pesquisa.value));
+        return (feira.data.getTime() >= this.state.agora || this.state.Field.historico.value) && (this.state.Field.minhas.value ? auth.value() == feira.usuario.id : true ) && (this.state.Field.pesquisa.value == "" || feira.nome.toUpperCase().includes(this.state.Field.pesquisa.value.toUpperCase()));
     }
 
     render () {

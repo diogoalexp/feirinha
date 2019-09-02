@@ -102,7 +102,7 @@ class Produtos extends Component {
     }
 
     checkVisibility = (produto) => {
-        return (this.state.Field.minhas.value ? auth.value() == produto.usuario.id : true ) && (this.state.Field.pesquisa.value == "" || produto.nome.includes(this.state.Field.pesquisa.value));
+        return (this.state.Field.minhas.value ? auth.value() == produto.usuario.id : true ) && (this.state.Field.pesquisa.value == "" || produto.nome.toUpperCase().includes(this.state.Field.pesquisa.value.toUpperCase()));
     }
 
     render () {

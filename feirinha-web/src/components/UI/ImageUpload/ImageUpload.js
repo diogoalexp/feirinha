@@ -46,7 +46,11 @@ class ImageUpload extends Component {
             {/* </form> */}
             <br/>
             {/* {!$imagePreview && <img className={classes.ImageUpload} src={imagePreviewUrl} alt="Empty"/>} */}
-            {!$imagePreview && <img className={classes.ImageUpload} src={imagem} alt={noImg}/>}
+            {!$imagePreview && 
+                <div className={classes.Imagem}>
+                    <img className={classes.ImageUpload} src={imagem} alt={noImg}/>
+                </div>
+                }
             {/* {<img className={classes.ImageUpload} src={"data:image/png;base64,"+this.props.value} alt="vazio"/>} */}
         </div>
       )

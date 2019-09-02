@@ -103,7 +103,7 @@ class Participantes extends Component {
     }
 
     checkVisibility = (participante) => {
-        return (this.state.Field.minhas.value ? auth.value() == participante.usuario.id : true ) && (this.state.Field.pesquisa.value == "" || participante.nome.includes(this.state.Field.pesquisa.value));
+        return (this.state.Field.minhas.value ? auth.value() == participante.usuario.id : true ) && (this.state.Field.pesquisa.value == "" || participante.nome.toUpperCase().includes(this.state.Field.pesquisa.value.toUpperCase()));
     }
 
     render () {
