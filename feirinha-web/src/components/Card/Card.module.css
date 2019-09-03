@@ -1,6 +1,6 @@
  .Card {
     /* position: relative; */
-    background: white;
+    background: #fcf4eb;
     width: 300px;
     height: 360px;
     color: black;    
@@ -67,6 +67,7 @@
 .Edit {
     float: right;
     position: relative;
+    background-color: #703B09;
 
 }
 
@@ -81,7 +82,8 @@
 	/* color:#FFF; */
 	border-radius:50px;
 	text-align:center;
-	box-shadow: 2px 2px 3px #999;
+    box-shadow: 2px 2px 3px #999;
+    background-color: #703B09;
 }
 
 @media (max-width: 500px) {

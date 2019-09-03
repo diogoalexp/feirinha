@@ -149,7 +149,7 @@ class FormCadastro extends Component {
             axios.post( '/usuario', formData )
                 .then( response => {
                     this.setState( { loading: false } );
-                    this.props.history.replace( '/home') ;
+                    this.props.history.replace( '/login') ;
                 } )
                 .catch( error => {
                     this.setState( { loading: false } );
