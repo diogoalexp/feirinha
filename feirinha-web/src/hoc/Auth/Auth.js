@@ -24,7 +24,7 @@ class Auth {
     };
 
     static user = () => {
-        return this.getCookie("token") > 0 ? {id: this.getCookie("token")} : null ;
+        return this.getCookie("token") > 0 ? {id: this.getCookie("token"), login: this.getCookie("login")} : null ;
     };
 }
 

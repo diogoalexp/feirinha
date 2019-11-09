@@ -118,6 +118,7 @@ class Login extends Component {
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
+        document.cookie = "login="+formData.login;
         axios.post( '/login', formData )
         .then( response => {
             document.cookie = "token="+response.data;
@@ -189,7 +190,7 @@ class Login extends Component {
                     <Button btnType="CadastrarLogin" type="button" clicked={this.Cadastrar} >Ainda não possuo login</Button> 
                     <br />
                     {msg}
-                    <Button btnType="Success" disabled={!this.state.formIsValid}>Login</Button> 
+                    <Button btnType="Success" disabled={!this.state.formIsValid}>Entrar</Button> 
                 </form>
             );
         }

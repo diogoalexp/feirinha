@@ -73,6 +73,8 @@ public class UsuarioResource {
     public long login(@RequestBody Usuario usuario) {
         long id = 0;
         List<Usuario> users = usuarioRepository.findByLoginAndSenha(usuario.getLogin(), usuario.getSenha());
+        if(users.isEmpty())
+            users = usuarioRepository.findByCpfAndSenha(usuario.getLogin(), usuario.getSenha());
         
         if(!users.isEmpty())
             id = users.get(0).getId();

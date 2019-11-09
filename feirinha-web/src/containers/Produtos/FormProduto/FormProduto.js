@@ -74,7 +74,7 @@ class FormProduto extends Component {
                 elementLabel: 'Categoria',
                 elementConfig: {
                     options: [
-                        {value: 0, displayValue: 'Select'}
+                        {value: 0, displayValue: 'Selecionar'}
                     ]
                 },
                 value: 0,
@@ -98,6 +98,8 @@ class FormProduto extends Component {
         for (let formElementIdentifier in this.state.orderForm) {
             if(formElementIdentifier == "categoria")
                 formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value != "0" ?  {id: parseInt(this.state.orderForm[formElementIdentifier].value) } : null;
+            else if(formElementIdentifier == "valor")
+                formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value.toString().replace(",", ".");
             else
                 formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
@@ -107,6 +109,7 @@ class FormProduto extends Component {
             axios.post( '/produto', formData )
                 .then( response => {
                     this.setState( { loading: false } );
+                    alert("Seu registro foi salvo com sucesso!");
                     this.props.history.replace( '/produtos') ;
                 } )
                 .catch( error => {
@@ -116,6 +119,7 @@ class FormProduto extends Component {
             axios.put( '/produto', formData )
                 .then( response => {
                     this.setState( { loading: false } );
+                    alert("Seu registro foi salvo com sucesso!");
                     this.props.history.replace( '/produtos') ;
                 } )
                 .catch( error => {
@@ -133,6 +137,7 @@ class FormProduto extends Component {
         axios.delete( '/produto',{ data: { id: this.state.id } })
             .then( response => {
                 this.setState( { loading: false } );
+                alert("Seu registro foi removido com sucesso!");
                 this.props.history.replace( '/produtos') ;
             } )
             .catch( error => {
@@ -221,8 +226,10 @@ class FormProduto extends Component {
         }; 
         if(key == "categoria")
             updatedFormElement.value = value != null ? value.id : "0";
+        else if (key == "valor")
+            updatedFormElement.value = value.toString().replace(".", ",");
         else
-            updatedFormElement.value = value;
+            updatedFormElement.value = value;                    
         updatedFormElement.valid = validation.check(updatedFormElement.value, updatedFormElement.validation);
         updatedFormElement.touched = true;
         return updatedFormElement
@@ -280,7 +287,7 @@ class FormProduto extends Component {
             
             const formElementsArray = [{
                 value: 0,
-                displayValue: "Select"
+                displayValue: "Selecionar"
             }];
             for (let item in fetched) {
                 formElementsArray.push({
@@ -315,7 +322,7 @@ class FormProduto extends Component {
 
         if(this.state.id > 0 && owner){
             del = (
-                <Button btnType="Danger" type="button" clicked={this.deleteHandler} >Delete</Button>
+                <Button btnType="Danger" type="button" clicked={this.deleteHandler} >Remover</Button>
             );
         }
 
@@ -352,7 +359,7 @@ class FormProduto extends Component {
                     ))}
                     <Button btnType="Voltar" type="button" clicked={this.checkoutCancelledHandler} >Voltar</Button>
                     {del}
-                    {owner ?  <Button btnType="Success" disabled={!this.state.formIsValid}>Save</Button> : null}
+                    {owner ?  <Button btnType="Success" disabled={!this.state.formIsValid}>Salvar</Button> : null}
                 </form>
             );
         }

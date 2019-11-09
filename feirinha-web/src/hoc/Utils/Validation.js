@@ -30,7 +30,7 @@ class Validation {
         }
 
         if (rules.isCurrency) {
-            const pattern = /^[0-9]+(\.[0-9]{1,2})?$/;
+            const pattern = /^[0-9]+(\,[0-9]{1,2})?$/;
             isValid = pattern.test(value) && isValid
         }
 

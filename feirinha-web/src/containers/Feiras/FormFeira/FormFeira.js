@@ -117,7 +117,7 @@ class FormFeira extends Component {
                 elementLabel: 'Participantes',
                 elementConfig: {
                     options: [
-                        {value: 0, displayValue: 'Select'}
+                        {value: 0, displayValue: 'Selecionar'}
                     ]
                 },
                 value: [],
@@ -147,6 +147,7 @@ class FormFeira extends Component {
             axios.post( '/feira', formData )
                 .then( response => {
                     this.setState( { loading: false } );
+                    alert("Seu registro foi salvo com sucesso!");
                     this.props.history.replace( '/feiras') ;
                 } )
                 .catch( error => {
@@ -156,6 +157,7 @@ class FormFeira extends Component {
             axios.put( '/feira', formData )
                 .then( response => {
                     this.setState( { loading: false } );
+                    alert("Seu registro foi salvo com sucesso!");
                     this.props.history.replace( '/feiras') ;
                 } )
                 .catch( error => {
@@ -173,6 +175,7 @@ class FormFeira extends Component {
         axios.delete( '/feira',{ data: { id: this.state.id } })
             .then( response => {
                 this.setState( { loading: false } );
+                alert("Seu registro foi removido com sucesso!");
                 this.props.history.replace( '/feiras') ;
             } )
             .catch( error => {
@@ -315,7 +318,7 @@ class FormFeira extends Component {
             
             const formElementsArray = [{
                 value: 0,
-                displayValue: "Select"
+                displayValue: "Selecionar"
             }];
             for (let item in fetched) {
                 formElementsArray.push({
@@ -354,7 +357,7 @@ class FormFeira extends Component {
 
         if(this.state.id > 0 && owner){
             del = (
-                <Button btnType="Danger" type="button" clicked={this.deleteHandler} >Delete</Button>
+                <Button btnType="Danger" type="button" clicked={this.deleteHandler} >Remover</Button>
             );
         }
 
@@ -392,7 +395,7 @@ class FormFeira extends Component {
                     ))}
                     <Button btnType="Voltar" type="button" clicked={this.checkoutCancelledHandler} >Voltar</Button>
                     {del}
-                    {owner ?  <Button btnType="Success" disabled={!this.state.formIsValid}>Save</Button> : null}
+                    {owner ?  <Button btnType="Success" disabled={!this.state.formIsValid}>Salvar</Button> : null}
                 </form>
             );
         }

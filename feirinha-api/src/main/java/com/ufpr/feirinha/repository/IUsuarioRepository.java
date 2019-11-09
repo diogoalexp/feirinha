@@ -17,4 +17,5 @@ import java.util.stream.Collectors;
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long>{
     Usuario findById(long id);
     List<Usuario> findByLoginAndSenha(String login, String senha);
+    List<Usuario> findByCpfAndSenha(String cpf, String senha);
 }
